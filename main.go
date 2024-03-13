@@ -16,6 +16,10 @@ type Item struct{
 	Price int `json:"price"`
 }
 
+type Response struct{
+	Message string `json:"name"`
+}
+
 var items []Item
 
 func main(){
@@ -26,11 +30,22 @@ func main(){
 	router.HandleFunc("/items",createItem).Methods("POST")
 	router.HandleFunc("/items/{id}",updateItem).Methods("PUT")
 	router.HandleFunc("/items/{id}",deleteItem).Methods("DELETE")
+	// checking router test
+	router.HandleFunc("/test",getItemss).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080",router))
+
+
+	// log.Output(http.ListenAndServe("server is up on port :8080",router))
 	
 
 
+}
+
+// checking json response
+func getItemss(w http.ResponseWriter,r *http.Request){
+	response:=Response{Message:"Hello Items"}
+	json.NewEncoder(w).Encode(response)
 }
 
 // function to get items
